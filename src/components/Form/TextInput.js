@@ -7,11 +7,14 @@ function TextInput (props) {
     onChangeText(event.target.name, event.target.value)
   }
 
+  const _props = { ...props }
+  delete _props.onChangeText
+
   return (
     <label style={styles.label}>
       {label} :
       <input
-        {...props}
+        {..._props}
         onChange={handleChange}
         style={styles.input}
       />
