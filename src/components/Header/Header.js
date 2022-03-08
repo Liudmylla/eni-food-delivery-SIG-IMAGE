@@ -14,6 +14,10 @@ function Header () {
 
   return (
     <div style={styles.container}>
+      <img
+        src='/assets/img/logo.png'
+        style={styles.logo}
+      />
       <NavMenu />
       {/* <UserGreeting isLoggedIn={isLoggedIn} />
       <AuthButton isLoggedIn={isLoggedIn} onClick={handleClick} /> */}

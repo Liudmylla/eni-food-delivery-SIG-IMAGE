@@ -18,6 +18,16 @@ const register = async (userData) => {
   }
 }
 
+const getRestaurants = async () => {
+  try {
+    const response = await api.get('/restaurants')
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export {
-  register
+  register,
+  getRestaurants
 }

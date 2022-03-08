@@ -6,6 +6,10 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#333333'
+  },
+  logo: {
+    width: 150,
+    marginLeft: 15
   }
 }
 

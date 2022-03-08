@@ -9,6 +9,9 @@ function NavMenu () {
           <Link to='/'>Home</Link>
         </li>
         <li>
+          <Link to='/restaurants'>Restaurants</Link>
+        </li>
+        <li>
           <Link to='/auth'>Auth</Link>
         </li>
       </ul>
