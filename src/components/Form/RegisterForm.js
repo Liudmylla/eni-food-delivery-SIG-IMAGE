@@ -22,7 +22,12 @@ function RegisterForm () {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const data = await register(formData)
+    const user = {
+      username: formData.email,
+      email: formData.email,
+      password: formData.password
+    }
+    const data = await register(user)
     setApiResponse(data)
   }
 
