@@ -1,6 +1,16 @@
-function RestaurantList () {
+import RestaurantListItem from './RestaurantListItem'
+
+import styles from './styles/RestaurantListStyle'
+
+function RestaurantList ({ restaurants }) {
   return (
-    <h1>LISTE DES RESTAURANTS</h1>
+    <div style={styles.list}>
+      {
+        restaurants.map(restaurant => (
+          <RestaurantListItem key={restaurant._id} restaurant={restaurant} />
+        ))
+      }
+    </div>
   )
 }
 
