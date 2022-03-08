@@ -27,7 +27,17 @@ const getRestaurants = async () => {
   }
 }
 
+const getRestaurantsById = async (id) => {
+  try {
+    const response = await api.get(`/restaurants/${id}`)
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export {
   register,
-  getRestaurants
+  getRestaurants,
+  getRestaurantsById
 }
