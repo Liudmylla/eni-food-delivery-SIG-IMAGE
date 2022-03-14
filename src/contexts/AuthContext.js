@@ -1,10 +1,12 @@
 import { createContext, useContext, useReducer } from 'react'
-import { register } from '../services/Api'
+import { login, register } from '../services/Api'
 
 const AuthContext = createContext()
 
 const actionTypes = {
   REGISTER: 'REGISTER',
+  LOGIN: 'LOGIN',
+  LOGOUT: 'LOGOUT',
   LOADING: 'LOADING',
   ERROR: 'ERROR'
 }
@@ -19,10 +21,13 @@ const initialState = {
 const AuthReducer = (state, action) => {
   // action = { type, data, error }
   switch (action.type) {
+    case actionTypes.LOGIN:
     case actionTypes.REGISTER:
       return {
         ...initialState, user: action.data.user, token: action.data.token
       }
+    case actionTypes.LOGOUT:
+      return initialState
     case actionTypes.LOADING:
       return {
         ...initialState, loading: true
@@ -64,9 +69,34 @@ const registerUser = async (userInfos, dispatch) => {
   }
 }
 
+const loginUser = async (userInfos, dispatch) => {
+  try {
+    const data = await login(userInfos)
+    if (data.user && data.jwt) {
+      dispatch({
+        type: actionTypes.LOGIN,
+        data: { user: data.user, token: data.jwt }
+      })
+    }
+  } catch (error) {
+    dispatch({
+      type: actionTypes.ERROR,
+      error: error
+    })
+  }
+}
+
+const logoutUser = (dispatch) => {
+  dispatch({
+    type: actionTypes.LOGOUT
+  })
+}
+
 export {
   actionTypes,
   AuthProvider,
   useAuth,
-  registerUser
+  registerUser,
+  loginUser,
+  logoutUser
 }

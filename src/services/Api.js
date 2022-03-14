@@ -18,6 +18,15 @@ const register = async (userData) => {
   }
 }
 
+const login = async (credentials) => {
+  try {
+    const response = await api.post('/auth/local', credentials)
+    return response.data
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 const getRestaurants = async () => {
   try {
     const response = await api.get('/restaurants')
@@ -38,6 +47,7 @@ const getRestaurantsById = async (id) => {
 
 export {
   register,
+  login,
   getRestaurants,
   getRestaurantsById
 }
