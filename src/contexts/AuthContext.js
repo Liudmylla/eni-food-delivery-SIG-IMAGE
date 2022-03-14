@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer } from 'react'
+import { createContext, useContext, useEffect, useReducer } from 'react'
 import { login, register } from '../services/Api'
 
 const AuthContext = createContext()
@@ -42,7 +42,17 @@ const AuthReducer = (state, action) => {
 }
 
 const AuthProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(AuthReducer, initialState)
+  // Récupération de l'état persisté
+  const persistedState = window.localStorage.getItem('AUTH')
+  // Si l'état existe, on parse et on initialise notre état global avec son contenu,
+  // sinon on utilise l'état initial
+  const _initialState = persistedState ? JSON.parse(persistedState) : initialState
+  const [state, dispatch] = useReducer(AuthReducer, _initialState)
+
+  useEffect(() => {
+    window.localStorage.setItem('AUTH', JSON.stringify(state))
+  }, [state])
+
   return <AuthContext.Provider value={{ state, dispatch }}>{children}</AuthContext.Provider>
 }
 
