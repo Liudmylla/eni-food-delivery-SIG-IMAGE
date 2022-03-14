@@ -1,4 +1,5 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useReducer } from 'react'
+import { register } from '../services/Api'
 
 const AuthContext = createContext()
 
@@ -36,7 +37,7 @@ const AuthReducer = (state, action) => {
 }
 
 const AuthProvider = ({ children }) => {
-  const [state, dispatch] = useContext(AuthReducer, initialState)
+  const [state, dispatch] = useReducer(AuthReducer, initialState)
   return <AuthContext.Provider value={{ state, dispatch }}>{children}</AuthContext.Provider>
 }
 
@@ -46,8 +47,26 @@ const useAuth = () => {
   return context
 }
 
+const registerUser = async (userInfos, dispatch) => {
+  try {
+    const data = await register(userInfos)
+    if (data.user && data.jwt) {
+      dispatch({
+        type: actionTypes.REGISTER,
+        data: { user: data.user, token: data.jwt }
+      })
+    }
+  } catch (error) {
+    dispatch({
+      type: actionTypes.ERROR,
+      error: error
+    })
+  }
+}
+
 export {
   actionTypes,
   AuthProvider,
-  useAuth
+  useAuth,
+  registerUser
 }

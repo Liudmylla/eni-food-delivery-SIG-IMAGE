@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import TextInput from './TextInput'
-import { register } from '../../services/Api'
+import { useAuth, registerUser } from '../../contexts/AuthContext'
 
 import '../../styles/FormStyle.css'
 
@@ -11,7 +11,7 @@ function RegisterForm () {
     email: '',
     password: ''
   })
-  const [apiResponse, setApiResponse] = useState()
+  const { dispatch, state } = useAuth()
 
   const handleTextChange = (name, value) => {
     setFormData({
@@ -27,13 +27,12 @@ function RegisterForm () {
       email: formData.email,
       password: formData.password
     }
-    const data = await register(user)
-    setApiResponse(data)
+    await registerUser(user, dispatch)
   }
 
   return (
     <form className='form-container' onSubmit={handleSubmit}>
-      <pre>{JSON.stringify(apiResponse, null, 2)}</pre>
+      <pre>{JSON.stringify(state, null, 2)}</pre>
       <TextInput
         label='Prénom'
         value={formData.firstName}
