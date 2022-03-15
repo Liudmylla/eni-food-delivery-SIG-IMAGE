@@ -1,6 +1,12 @@
+import PropTypes from 'prop-types'
 import { removeFromCart, useCart } from '../../contexts/CartContext'
 import { cartItemStyles } from './styles/CartStyle'
 
+/**
+ * Cart Line Item Component
+ * @param {object} item
+ * @returns CartLineItemComponent
+ */
 function CartLineItem ({ item }) {
   const { dispatch } = useCart()
   const { plat, quantity } = item
@@ -16,6 +22,10 @@ function CartLineItem ({ item }) {
       <button onClick={() => removeFromCart(plat, dispatch)}>🗑️</button>
     </div>
   )
+}
+
+CartLineItem.propTypes = {
+  item: PropTypes.object.isRequired
 }
 
 export default CartLineItem

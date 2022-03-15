@@ -9,7 +9,7 @@ function RestaurantListItem ({ restaurant }) {
   }
 
   return (
-    <div onClick={handleClick} style={styles.card}>
+    <div data-testid='restaurant' onClick={handleClick} style={styles.card}>
       <img style={styles.image} src={`${process.env.REACT_APP_API_URL}${restaurant.photos[0].url}`} />
       <h2>{restaurant.title}</h2>
       <p>{restaurant.description}</p>
