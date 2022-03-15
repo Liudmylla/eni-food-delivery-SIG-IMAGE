@@ -5,7 +5,7 @@ import { cartStyles } from './styles/CartStyle'
 
 function Cart () {
   const { state: { cart, total } } = useCart()
-  const categories = [...new Set(cart.map(p => p.category))]
+  const categories = [...new Set(cart.map(cartItem => cartItem.plat.category))]
 
   return (
     <Draggable>
@@ -17,8 +17,8 @@ function Cart () {
               <h3>{c.toUpperCase()}</h3>
               <>
                 {
-                  cart.filter(p => p.category === c).map(plat => (
-                    <CartLineItem key={plat._id} item={plat} />
+                  cart.filter(cartItem => cartItem.plat.category === c).map(cartItem => (
+                    <CartLineItem key={cartItem.plat._id} item={cartItem} />
                   ))
                 }
               </>

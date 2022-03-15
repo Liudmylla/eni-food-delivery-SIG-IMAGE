@@ -9,7 +9,7 @@ const actionTypes = {
 }
 
 const initialState = {
-  cart: [],
+  cart: [], // [{ plat, quantity }]
   total: 0
 }
 
@@ -18,16 +18,35 @@ const CartReducer = (state, action) => {
     case actionTypes.ADD_TO_CART:
       return {
         ...state,
-        cart: state.cart.concat([action.data]),
+        // On recherche si le cart contient déjà le plat
+        cart: state.cart.some(cartItem => cartItem.plat._id === action.data._id)
+          // On Itère pour mettre à jour la quantité
+          ? state.cart.map((cartItem) => {
+              // On retrouve le plat à modifier
+              // if (cartItem._id === action.data._id) {
+              //   // On retourne le plat mit à jour dans le nouveau tableau
+              //   return { ...cartItem, quantity: cartItem.quantity + 1 }
+              // } else {
+              //   return cartItem
+              // }
+              return cartItem.plat._id === action.data._id
+                ? { ...cartItem, quantity: cartItem.quantity + 1 }
+                : cartItem
+            })
+          : state.cart.concat([{ plat: action.data, quantity: 1 }]),
         total: state.cart.length > 0
-          ? state.cart.reduce((prev, cur) => prev + cur.price, action.data.price)
+          ? state.cart.reduce((prev, cur) => prev + (cur.plat.price * cur.quantity), action.data.price)
           : action.data.price
       }
     case actionTypes.REMOVE_FROM_CART:
       return {
-        cart: state.cart.filter(c => c._id !== action.data._id),
+        cart: state.cart.map(cartItem => {
+          return cartItem.plat._id === action.data._id
+            ? { ...cartItem, quantity: cartItem.quantity - 1 }
+            : cartItem
+        }).filter(cartItem => cartItem.quantity > 0),
         total: state.cart.length > 0
-          ? state.cart.reduce((prev, cur) => prev + cur.price, -action.data.price)
+          ? state.cart.reduce((prev, cur) => prev + (cur.plat.price * cur.quantity), -action.data.price)
           : action.data.price
       }
     case actionTypes.RESET:

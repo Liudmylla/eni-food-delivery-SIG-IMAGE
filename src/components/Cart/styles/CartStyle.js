@@ -1,7 +1,7 @@
 const cartStyles = {
   container: {
-    position: 'absolute',
-    width: 300,
+    position: 'fixed',
+    width: 400,
     backgroundColor: 'lightseagreen',
     paddingBlock: 20
   }
